@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.Bin.quartz.dao.SysTaskDao" >
+  <resultMap id="BaseResultMap" type="com.Bin.quartz.entity.SysTask" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cronExpression" property="cronExpression" jdbcType="VARCHAR" />
+    <result column="methodName" property="methodName" jdbcType="VARCHAR" />
+    <result column="isConcurrent" property="isConcurrent" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="updateBy" property="updateBy" jdbcType="VARCHAR" />
+    <result column="beanClass" property="beanClass" jdbcType="VARCHAR" />
+    <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="jobStatus" property="jobStatus" jdbcType="VARCHAR" />
+    <result column="jobGroup" property="jobGroup" jdbcType="VARCHAR" />
+    <result column="updateDate" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="createBy" property="createBy" jdbcType="VARCHAR" />
+    <result column="springBean" property="springBean" jdbcType="VARCHAR" />
+    <result column="jobName" property="jobName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="baseCols">
+      id,
+      cronExpression,
+      methodName,
+      isConcurrent,
+      description,
+      updateBy,
+      beanClass,
+      createDate,
+      jobStatus,
+      jobGroup,
+      updateDate,
+      createBy,
+      springBean,
+      jobName
+  </sql>
+
+    <!-- add one record -->
+  <insert id="insertSysTask">
+    INSERT INTO test.sys_task(
+      cronExpression,
+      methodName,
+      isConcurrent,
+      description,
+      updateBy,
+      beanClass,
+      createDate,
+      jobStatus,
+      jobGroup,
+      updateDate,
+      createBy,
+      springBean,
+      jobName)
+    VALUES (
+      #{cronExpression,jdbcType=VARCHAR},
+      #{methodName,jdbcType=VARCHAR},
+      #{isConcurrent,jdbcType=VARCHAR},
+      #{description,jdbcType=VARCHAR},
+      #{updateBy,jdbcType=VARCHAR},
+      #{beanClass,jdbcType=VARCHAR},
+      #{createDate,jdbcType=TIMESTAMP},
+      #{jobStatus,jdbcType=VARCHAR},
+      #{jobGroup,jdbcType=VARCHAR},
+      #{updateDate,jdbcType=TIMESTAMP},
+      #{createBy,jdbcType=VARCHAR},
+      #{springBean,jdbcType=VARCHAR},
+      #{jobName,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByJobName" parameterType="com.Bin.quartz.entity.SysTask">
+      UPDATE  test.sys_task
+      <set>
+          <if test="updateDate != null"> updateDate = #{updateDate,jdbcType=TIMESTAMP}</if>
+          <if test="cronExpression != null and cronExpression != ''"> ,cronExpression = #{cronExpression,jdbcType=VARCHAR}</if>
+          <if test="jobStatus != null and jobStatus != ''"> ,jobStatus = #{jobStatus,jdbcType=VARCHAR}</if>
+      </set>
+      <where>
+          <if test="jobName != null and jobName != ''">jobName = #{jobName,jdbcType=VARCHAR}</if>
+          <if test="jobGroup != null and jobGroup != ''"> AND jobGroup = #{jobGroup,jdbcType=VARCHAR}</if>
+           AND jobStatus = 1
+      </where>
+  </update>
+
+    <select id="selectSysTask" resultMap="BaseResultMap" parameterType="com.Bin.quartz.entity.SysTask">
+    SELECT
+    <include refid="baseCols"/>
+    FROM test.sys_task
+      <where>
+          <if test="jobName != null and jobName != ''">jobName = #{jobName,jdbcType=VARCHAR}</if>
+          <if test="jobGroup != null and jobGroup != ''"> AND jobGroup = #{jobGroup,jdbcType=VARCHAR}</if>
+      </where>
+  </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseCols"/>
+        FROM test.sys_task
+        WHERE jobStatus = 1
+    </select>
+</mapper>

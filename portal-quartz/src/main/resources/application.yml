@@ -1,0 +1,35 @@
+# spring信息
+spring:
+  application:
+    name: portal-quartz
+  datasource:   # 数据源
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/test
+    initialize: true
+
+# 服务端口
+server:
+  port: 9092
+
+# eureka服务管理中心
+#eureka:
+#  server:
+#    enable-self-preservation: false
+#  client:
+#    service-url:
+#      defaultZone: http://weepal:weepal123@localhost:8761/eureka/
+#  instance:
+#    lease-expiration-duration-in-seconds: 30
+#    lease-renewal-interval-in-seconds: 10
+
+# mybatis信息
+mybatis:
+  type-aliases-package:  com.Bin.quartz.entity
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+
+# ribbon负载均衡
+#ribbon:
+#  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+#  MaxAutoRetriesNextServer: 0
